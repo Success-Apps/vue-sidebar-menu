@@ -1,4 +1,4 @@
-import { inject, toRefs, ref, reactive, computed, provide, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, normalizeClass, Fragment, renderList, onMounted, onUnmounted, nextTick, createVNode } from 'vue';
+import { inject, toRefs, ref, reactive, computed, provide, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, normalizeClass, Fragment, renderList, onMounted, onUnmounted, nextTick } from 'vue';
 
 var initSidebar = function initSidebar(props, context) {
   var _toRefs = toRefs(props),
@@ -978,6 +978,8 @@ var script$1 = {
     };
 
     const updateThumb = () => {
+      if (!scrollRef.value) return
+
       const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight;
       const thumbHeightPerc = heightPerc < 100 ? heightPerc : 0;
       const thumbYPerc = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight || 0;
@@ -1099,8 +1101,12 @@ var script = {
       default: false
     },
     linkComponentName: {
-      type: String,
+      type: [String, Object],
       default: undefined
+    },
+    hideMenu: {
+      type: Boolean,
+      default: false
     }
   },
   emits: {
@@ -1142,7 +1148,8 @@ var script = {
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
         props.theme ? `vsm_${props.theme}` : '',
         props.rtl ? 'vsm_rtl' : '',
-        props.relative ? 'vsm_relative' : ''
+        props.relative ? 'vsm_relative' : '',
+        props.hideMenu ? 'vsm_hide_menu' : ''
       ]
     });
 
@@ -1179,8 +1186,9 @@ var script = {
   }
 };
 
-const _hoisted_1 = /*#__PURE__*/createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
+const _hoisted_1 = { class: "v-sidebar-header-toggle" };
 const _hoisted_2 = /*#__PURE__*/createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+const _hoisted_3 = /*#__PURE__*/createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_sidebar_menu_item = resolveComponent("sidebar-menu-item");
@@ -1191,42 +1199,46 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: normalizeClass(["v-sidebar-menu", $setup.sidebarClass]),
     style: normalizeStyle({'max-width': $setup.sidebarWidth})
   }, [
-    renderSlot(_ctx.$slots, "header"),
-    createVNode(_component_sidebar_menu_scroll, null, {
-      default: withCtx(() => [
-        createElementVNode("ul", {
-          class: "vsm--menu",
-          style: normalizeStyle({'width': $setup.sidebarWidth})
-        }, [
-          (openBlock(true), createElementBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
-            return (openBlock(), createBlock(_component_sidebar_menu_item, {
-              key: item.id,
-              item: item
-            }, {
-              "dropdown-icon": withCtx(({ isOpen }) => [
-                renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })), () => [
-                  _hoisted_1
-                ])
-              ]),
-              _: 2 /* DYNAMIC */
-            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
-          }), 128 /* KEYED_FRAGMENT */))
-        ], 4 /* STYLE */)
-      ]),
-      _: 3 /* FORWARDED */
-    }),
-    renderSlot(_ctx.$slots, "footer"),
-    (!$props.hideToggle)
-      ? (openBlock(), createElementBlock("button", {
-          key: 0,
-          class: "vsm--toggle-btn",
-          onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
-        }, [
-          renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
-            _hoisted_2
-          ])
-        ]))
-      : createCommentVNode("v-if", true)
+    createElementVNode("div", _hoisted_1, [
+      renderSlot(_ctx.$slots, "header"),
+      (!$props.hideToggle)
+        ? (openBlock(), createElementBlock("button", {
+            key: 0,
+            class: "vsm--toggle-btn",
+            onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
+          }, [
+            renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
+              _hoisted_2
+            ])
+          ]))
+        : createCommentVNode("v-if", true)
+    ]),
+    (!$props.hideMenu)
+      ? (openBlock(), createBlock(_component_sidebar_menu_scroll, { key: 0 }, {
+          default: withCtx(() => [
+            createElementVNode("ul", {
+              class: "vsm--menu",
+              style: normalizeStyle({'width': $setup.sidebarWidth})
+            }, [
+              (openBlock(true), createElementBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
+                return (openBlock(), createBlock(_component_sidebar_menu_item, {
+                  key: item.id,
+                  item: item
+                }, {
+                  "dropdown-icon": withCtx(({ isOpen }) => [
+                    renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })), () => [
+                      _hoisted_3
+                    ])
+                  ]),
+                  _: 2 /* DYNAMIC */
+                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
+              }), 128 /* KEYED_FRAGMENT */))
+            ], 4 /* STYLE */)
+          ]),
+          _: 3 /* FORWARDED */
+        }))
+      : createCommentVNode("v-if", true),
+    renderSlot(_ctx.$slots, "footer")
   ], 6 /* CLASS, STYLE */))
 }
 

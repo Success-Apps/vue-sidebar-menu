@@ -5,8 +5,19 @@
     :class="sidebarClass"
     :style="{'max-width': sidebarWidth}"
   >
-    <slot name="header" />
-    <sidebar-menu-scroll>
+    <div class="v-sidebar-header-toggle">
+      <slot name="header" />
+      <button
+        v-if="!hideToggle"
+        class="vsm--toggle-btn"
+        @click="onToggleClick"
+      >
+        <slot name="toggle-icon">
+          <span class="vsm--toggle-btn_default" />
+        </slot>
+      </button>
+    </div>
+    <sidebar-menu-scroll v-if="!hideMenu">
       <ul
         class="vsm--menu"
         :style="{'width': sidebarWidth}"
@@ -28,15 +39,6 @@
       </ul>
     </sidebar-menu-scroll>
     <slot name="footer" />
-    <button
-      v-if="!hideToggle"
-      class="vsm--toggle-btn"
-      @click="onToggleClick"
-    >
-      <slot name="toggle-icon">
-        <span class="vsm--toggle-btn_default" />
-      </slot>
-    </button>
   </div>
 </template>
 
@@ -99,8 +101,12 @@ export default {
       default: false
     },
     linkComponentName: {
-      type: String,
+      type: [String, Object],
       default: undefined
+    },
+    hideMenu: {
+      type: Boolean,
+      default: false
     }
   },
   emits: {
@@ -142,7 +148,8 @@ export default {
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
         props.theme ? `vsm_${props.theme}` : '',
         props.rtl ? 'vsm_rtl' : '',
-        props.relative ? 'vsm_relative' : ''
+        props.relative ? 'vsm_relative' : '',
+        props.hideMenu ? 'vsm_hide_menu' : ''
       ]
     })
 

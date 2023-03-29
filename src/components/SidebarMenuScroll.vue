@@ -79,6 +79,8 @@ export default {
     }
 
     const updateThumb = () => {
+      if (!scrollRef.value) return
+
       const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight
       const thumbHeightPerc = heightPerc < 100 ? heightPerc : 0
       const thumbYPerc = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight || 0

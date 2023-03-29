@@ -982,6 +982,8 @@
       };
 
       const updateThumb = () => {
+        if (!scrollRef.value) return
+
         const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight;
         const thumbHeightPerc = heightPerc < 100 ? heightPerc : 0;
         const thumbYPerc = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight || 0;
@@ -1103,8 +1105,12 @@
         default: false
       },
       linkComponentName: {
-        type: String,
+        type: [String, Object],
         default: undefined
+      },
+      hideMenu: {
+        type: Boolean,
+        default: false
       }
     },
     emits: {
@@ -1146,7 +1152,8 @@
           !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
           props.theme ? `vsm_${props.theme}` : '',
           props.rtl ? 'vsm_rtl' : '',
-          props.relative ? 'vsm_relative' : ''
+          props.relative ? 'vsm_relative' : '',
+          props.hideMenu ? 'vsm_hide_menu' : ''
         ]
       });
 
@@ -1183,8 +1190,9 @@
     }
   };
 
-  const _hoisted_1 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
+  const _hoisted_1 = { class: "v-sidebar-header-toggle" };
   const _hoisted_2 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--toggle-btn_default" }, null, -1 /* HOISTED */);
+  const _hoisted_3 = /*#__PURE__*/vue.createElementVNode("span", { class: "vsm--arrow_default" }, null, -1 /* HOISTED */);
 
   function render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_sidebar_menu_item = vue.resolveComponent("sidebar-menu-item");
@@ -1195,42 +1203,46 @@
       class: vue.normalizeClass(["v-sidebar-menu", $setup.sidebarClass]),
       style: vue.normalizeStyle({'max-width': $setup.sidebarWidth})
     }, [
-      vue.renderSlot(_ctx.$slots, "header"),
-      vue.createVNode(_component_sidebar_menu_scroll, null, {
-        default: vue.withCtx(() => [
-          vue.createElementVNode("ul", {
-            class: "vsm--menu",
-            style: vue.normalizeStyle({'width': $setup.sidebarWidth})
-          }, [
-            (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($setup.computedMenu, (item) => {
-              return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
-                key: item.id,
-                item: item
-              }, {
-                "dropdown-icon": vue.withCtx(({ isOpen }) => [
-                  vue.renderSlot(_ctx.$slots, "dropdown-icon", vue.normalizeProps(vue.guardReactiveProps({ isOpen })), () => [
-                    _hoisted_1
-                  ])
-                ]),
-                _: 2 /* DYNAMIC */
-              }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
-            }), 128 /* KEYED_FRAGMENT */))
-          ], 4 /* STYLE */)
-        ]),
-        _: 3 /* FORWARDED */
-      }),
-      vue.renderSlot(_ctx.$slots, "footer"),
-      (!$props.hideToggle)
-        ? (vue.openBlock(), vue.createElementBlock("button", {
-            key: 0,
-            class: "vsm--toggle-btn",
-            onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
-          }, [
-            vue.renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
-              _hoisted_2
-            ])
-          ]))
-        : vue.createCommentVNode("v-if", true)
+      vue.createElementVNode("div", _hoisted_1, [
+        vue.renderSlot(_ctx.$slots, "header"),
+        (!$props.hideToggle)
+          ? (vue.openBlock(), vue.createElementBlock("button", {
+              key: 0,
+              class: "vsm--toggle-btn",
+              onClick: _cache[0] || (_cache[0] = (...args) => ($setup.onToggleClick && $setup.onToggleClick(...args)))
+            }, [
+              vue.renderSlot(_ctx.$slots, "toggle-icon", {}, () => [
+                _hoisted_2
+              ])
+            ]))
+          : vue.createCommentVNode("v-if", true)
+      ]),
+      (!$props.hideMenu)
+        ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_scroll, { key: 0 }, {
+            default: vue.withCtx(() => [
+              vue.createElementVNode("ul", {
+                class: "vsm--menu",
+                style: vue.normalizeStyle({'width': $setup.sidebarWidth})
+              }, [
+                (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($setup.computedMenu, (item) => {
+                  return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
+                    key: item.id,
+                    item: item
+                  }, {
+                    "dropdown-icon": vue.withCtx(({ isOpen }) => [
+                      vue.renderSlot(_ctx.$slots, "dropdown-icon", vue.normalizeProps(vue.guardReactiveProps({ isOpen })), () => [
+                        _hoisted_3
+                      ])
+                    ]),
+                    _: 2 /* DYNAMIC */
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
+                }), 128 /* KEYED_FRAGMENT */))
+              ], 4 /* STYLE */)
+            ]),
+            _: 3 /* FORWARDED */
+          }))
+        : vue.createCommentVNode("v-if", true),
+      vue.renderSlot(_ctx.$slots, "footer")
     ], 6 /* CLASS, STYLE */))
   }
 
