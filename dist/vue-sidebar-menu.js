@@ -1211,7 +1211,7 @@
           ]))
         : vue.createCommentVNode("v-if", true),
       vue.renderSlot(_ctx.$slots, "header"),
-      ($props.hideMenu)
+      (!$props.hideMenu)
         ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_scroll, { key: 1 }, {
             default: vue.withCtx(() => [
               vue.createElementVNode("ul", {

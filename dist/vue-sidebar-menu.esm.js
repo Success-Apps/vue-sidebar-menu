@@ -1207,7 +1207,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         ]))
       : createCommentVNode("v-if", true),
     renderSlot(_ctx.$slots, "header"),
-    ($props.hideMenu)
+    (!$props.hideMenu)
       ? (openBlock(), createBlock(_component_sidebar_menu_scroll, { key: 1 }, {
           default: withCtx(() => [
             createElementVNode("ul", {
