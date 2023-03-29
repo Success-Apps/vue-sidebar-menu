@@ -1148,7 +1148,8 @@ var script = {
         !isCollapsed.value ? 'vsm_expanded' : 'vsm_collapsed',
         props.theme ? `vsm_${props.theme}` : '',
         props.rtl ? 'vsm_rtl' : '',
-        props.relative ? 'vsm_relative' : ''
+        props.relative ? 'vsm_relative' : '',
+        props.hideMenu ? 'vsm_hide_menu' : ''
       ]
     });
 
