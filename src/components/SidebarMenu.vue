@@ -15,7 +15,7 @@
       </slot>
     </button>
     <slot name="header" />
-    <sidebar-menu-scroll>
+    <sidebar-menu-scroll v-if="hideMenu">
       <ul
         class="vsm--menu"
         :style="{'width': sidebarWidth}"
@@ -101,6 +101,10 @@ export default {
     linkComponentName: {
       type: String,
       default: undefined
+    },
+    hideMenu: {
+      type: Boolean,
+      default: false
     }
   },
   emits: {

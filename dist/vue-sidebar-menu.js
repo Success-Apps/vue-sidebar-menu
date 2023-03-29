@@ -1105,6 +1105,10 @@
       linkComponentName: {
         type: String,
         default: undefined
+      },
+      hideMenu: {
+        type: Boolean,
+        default: false
       }
     },
     emits: {
@@ -1207,29 +1211,31 @@
           ]))
         : vue.createCommentVNode("v-if", true),
       vue.renderSlot(_ctx.$slots, "header"),
-      vue.createVNode(_component_sidebar_menu_scroll, null, {
-        default: vue.withCtx(() => [
-          vue.createElementVNode("ul", {
-            class: "vsm--menu",
-            style: vue.normalizeStyle({'width': $setup.sidebarWidth})
-          }, [
-            (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($setup.computedMenu, (item) => {
-              return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
-                key: item.id,
-                item: item
-              }, {
-                "dropdown-icon": vue.withCtx(({ isOpen }) => [
-                  vue.renderSlot(_ctx.$slots, "dropdown-icon", vue.normalizeProps(vue.guardReactiveProps({ isOpen })), () => [
-                    _hoisted_2
-                  ])
-                ]),
-                _: 2 /* DYNAMIC */
-              }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
-            }), 128 /* KEYED_FRAGMENT */))
-          ], 4 /* STYLE */)
-        ]),
-        _: 3 /* FORWARDED */
-      }),
+      ($props.hideMenu)
+        ? (vue.openBlock(), vue.createBlock(_component_sidebar_menu_scroll, { key: 1 }, {
+            default: vue.withCtx(() => [
+              vue.createElementVNode("ul", {
+                class: "vsm--menu",
+                style: vue.normalizeStyle({'width': $setup.sidebarWidth})
+              }, [
+                (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($setup.computedMenu, (item) => {
+                  return (vue.openBlock(), vue.createBlock(_component_sidebar_menu_item, {
+                    key: item.id,
+                    item: item
+                  }, {
+                    "dropdown-icon": vue.withCtx(({ isOpen }) => [
+                      vue.renderSlot(_ctx.$slots, "dropdown-icon", vue.normalizeProps(vue.guardReactiveProps({ isOpen })), () => [
+                        _hoisted_2
+                      ])
+                    ]),
+                    _: 2 /* DYNAMIC */
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
+                }), 128 /* KEYED_FRAGMENT */))
+              ], 4 /* STYLE */)
+            ]),
+            _: 3 /* FORWARDED */
+          }))
+        : vue.createCommentVNode("v-if", true),
       vue.renderSlot(_ctx.$slots, "footer")
     ], 6 /* CLASS, STYLE */))
   }

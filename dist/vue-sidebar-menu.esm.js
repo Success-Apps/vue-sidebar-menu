@@ -1,4 +1,4 @@
-import { inject, toRefs, ref, reactive, computed, provide, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, normalizeClass, Fragment, renderList, onMounted, onUnmounted, nextTick, createVNode } from 'vue';
+import { inject, toRefs, ref, reactive, computed, provide, getCurrentInstance, watch, resolveComponent, openBlock, createElementBlock, normalizeProps, mergeProps, renderSlot, createBlock, withCtx, createElementVNode, resolveDynamicComponent, createTextVNode, toDisplayString, guardReactiveProps, toHandlers, Transition, normalizeStyle, createCommentVNode, normalizeClass, Fragment, renderList, onMounted, onUnmounted, nextTick } from 'vue';
 
 var initSidebar = function initSidebar(props, context) {
   var _toRefs = toRefs(props),
@@ -1101,6 +1101,10 @@ var script = {
     linkComponentName: {
       type: String,
       default: undefined
+    },
+    hideMenu: {
+      type: Boolean,
+      default: false
     }
   },
   emits: {
@@ -1203,29 +1207,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         ]))
       : createCommentVNode("v-if", true),
     renderSlot(_ctx.$slots, "header"),
-    createVNode(_component_sidebar_menu_scroll, null, {
-      default: withCtx(() => [
-        createElementVNode("ul", {
-          class: "vsm--menu",
-          style: normalizeStyle({'width': $setup.sidebarWidth})
-        }, [
-          (openBlock(true), createElementBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
-            return (openBlock(), createBlock(_component_sidebar_menu_item, {
-              key: item.id,
-              item: item
-            }, {
-              "dropdown-icon": withCtx(({ isOpen }) => [
-                renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })), () => [
-                  _hoisted_2
-                ])
-              ]),
-              _: 2 /* DYNAMIC */
-            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
-          }), 128 /* KEYED_FRAGMENT */))
-        ], 4 /* STYLE */)
-      ]),
-      _: 3 /* FORWARDED */
-    }),
+    ($props.hideMenu)
+      ? (openBlock(), createBlock(_component_sidebar_menu_scroll, { key: 1 }, {
+          default: withCtx(() => [
+            createElementVNode("ul", {
+              class: "vsm--menu",
+              style: normalizeStyle({'width': $setup.sidebarWidth})
+            }, [
+              (openBlock(true), createElementBlock(Fragment, null, renderList($setup.computedMenu, (item) => {
+                return (openBlock(), createBlock(_component_sidebar_menu_item, {
+                  key: item.id,
+                  item: item
+                }, {
+                  "dropdown-icon": withCtx(({ isOpen }) => [
+                    renderSlot(_ctx.$slots, "dropdown-icon", normalizeProps(guardReactiveProps({ isOpen })), () => [
+                      _hoisted_2
+                    ])
+                  ]),
+                  _: 2 /* DYNAMIC */
+                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["item"]))
+              }), 128 /* KEYED_FRAGMENT */))
+            ], 4 /* STYLE */)
+          ]),
+          _: 3 /* FORWARDED */
+        }))
+      : createCommentVNode("v-if", true),
     renderSlot(_ctx.$slots, "footer")
   ], 6 /* CLASS, STYLE */))
 }
