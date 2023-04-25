@@ -1105,7 +1105,7 @@
         default: false
       },
       linkComponentName: {
-        type: String,
+        type: [String, Object],
         default: undefined
       },
       hideMenu: {
