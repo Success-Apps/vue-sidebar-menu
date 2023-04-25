@@ -139,7 +139,7 @@ export class SidebarMenu {
    * The name of the custom link component (must be registered globally and define item as a prop)
    *
    */
-  linkComponentName?: string;
+  linkComponentName?: string|object;
 }
 
 export default function install (app: App): void
